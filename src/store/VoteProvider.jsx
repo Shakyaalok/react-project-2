@@ -21,6 +21,22 @@ const voteReducer = (state,action)=>{
     }
   }
 
+  if(action.type==='REMOVE'){
+    const existingVoteIndex = state.votes.findIndex((vote)=>vote.id===action.id);
+    const extistingVote = state.votes[existingVoteIndex];
+    const updatedTotalVote = state.totalVote - extistingVote.currentVote;
+    let updatedVotes;
+    const updatedVote = state.votes.filter((vote)=>vote.id!==extistingVote.id);
+    updatedVotes = [...updatedVote];
+
+    return {
+      votes:updatedVotes,
+      totalVote:updatedTotalVote
+    }
+    
+  }
+
+
   return initialState;
     
 
@@ -35,6 +51,10 @@ const VoteProvider = (props) => {
       voteDispatcher({type:'ADD',vote:vote})
     }
 
+    const removeVoteHandler = (id)=>{
+      voteDispatcher({type:'REMOVE',id:id})
+    }
+
 
 
 
@@ -42,7 +62,7 @@ const VoteProvider = (props) => {
         votes:voteState.votes,
         totalVote:voteState.totalVote,
         addVote:addVoteHandler,
-        removeVotes:(id)=>{},        
+        removeVote:removeVoteHandler,        
         message:'this is working'
     }
 

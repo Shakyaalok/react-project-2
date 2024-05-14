@@ -7,14 +7,17 @@ const Candidate = () => {
   const voteCtx = useContext(voteContext);
 
 
+ const voteRemoveHandler = (id) =>{
+  voteCtx.removeVote(id)
+ }
 
 
 const getNumberOfVoters = (id)=>{
   const NumberOfVoters = voteCtx.votes.filter((candidate)=>candidate.id===id);
   const VotersName = NumberOfVoters.map((vote)=>(
-    <div key={vote}>
+    <div key={vote.id}>
       <h4>{vote.name}</h4>
-      <button>Remove vote</button>
+      <button onClick={()=>voteRemoveHandler(vote.id)}>Remove vote</button>
     </div>
   ))
 
